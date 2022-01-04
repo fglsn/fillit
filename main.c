@@ -2,7 +2,7 @@
 #include "fillit.h"
 #include <fcntl.h>
 
-void	ft_arraydel(char **str_array, int size)
+void	ft_arraydel(char **str_array, int size) // free all strings in 2d array and array itself
 {
 	int	i;
 	
@@ -25,6 +25,8 @@ int	check_line(char *line)
 	return (1);
 }
 
+// If input file invalid, free what was saved previousely and return null to get_tetriminos function
+// If all good save lines into 4x4 arrays 
 char	**check_input_format(int fd)
 {
 	int		i;
@@ -37,13 +39,13 @@ char	**check_input_format(int fd)
 	i = 0;
 	while (i++ < 4)
 	{
-		gnl = ft_get_next_line(fd, &lines[i]);
-		if (gnl < 0)
+		gnl = ft_get_next_line(fd, &lines[i]); //reading line by line and saving into tetri-input to 4x4 array, return lines to get tetriminos function
+		if (gnl < 0)  //free allocated array of pointers if gnl returned error 
 		{
 			ft_arraydel(&lines, 4);
 			return (NULL);
 		}
-		if (ft_strlen(lines[i]) != 4 && !check_line(line[i]))
+		if (ft_strlen(lines[i]) != 4 && !check_line(line[i])) // free if line not 4p long or has something instead of . or #
 		{
 			ft_arraydel(&lines, 4);
 			return (NULL);
@@ -52,7 +54,9 @@ char	**check_input_format(int fd)
 	return (lines);
 }
 
-int	check_empty_line(int fd)
+
+//this function checks if there is a \n after 4x4 tetri block and if this line is empty and also tells us if everything was read, end of file
+int	check_empty_line(int fd) 
 {
 	char	*line;
 	int		res;
@@ -72,7 +76,9 @@ int	check_empty_line(int fd)
 	return (res); //returns 0 if all read, 1 if not end of file, -1 if error
 }
 
-t_piece	parse_tetrimino(char **input_piece)
+// not finished. with help of this function we will check if tetri is valid
+// alighn to topleft corner and save result to array of structs. one parsed tetri == one struct 
+t_piece	parse_tetrimino(char **input_piece) 
 {
 	int		x;
 	int		y;
@@ -83,12 +89,12 @@ t_piece	parse_tetrimino(char **input_piece)
 	y = 0;
 	hash_count = 0;
 	count_touches = 0;
-	while (y < 4)
+	while (y < 4) // counting touches and amount of hashes
 	{
 		x = 0;
 		while (x < 4)
 		{
-			if (input_piece[y][x] == '#')
+			if (input_piece[y][x] == '#') // if # check top left right down coordinates, if # count++
 			{
 				if (y != 3 && input_piece[y + 1][x] == '#')
 					count_touches++;
@@ -112,21 +118,22 @@ t_piece	parse_tetrimino(char **input_piece)
 	// todo : calculate width and height of piece, save to struct and we are ready to solve
 }
 
-int	get_tetriminos(int fd, t_piece *tetriminos)
+int	get_tetriminos(int fd, t_piece *tetriminos) //we will count how many pieces we got. we will return 0 if error and return "error\n" in main then
 {
 	int		i;
 	int		count;
-	char	**input_piece;
+	char	**input_piece; //array of lines with tetrimino
 
 	i = 0;
 	count = 0;
-	while (check_empty_line(fd) > 0)
+	while (check_empty_line(fd) > 0) //we will read and save each piece at a time, unless there's nothing to read anymore or error (for example no \n after 4x4 block in input)
 	{
 		input_piece = check_input_format(fd);
 		if (!input_piece)
 			return (0);
-		if (parse_tetrimino())
-		//not finished. we will count how many pieces we got as a return or 0 if error and return error in main
+		if (!parse_tetrimino(input_piece)) //not finished. with help of this function we will check if tetri is valid, alighn to topleft corner and save result to array of structs. one parsed tetri == one struct
+			return (0);
+		count++; 
 	}
 	return (count);
 }
