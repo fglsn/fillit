@@ -2,7 +2,7 @@
 #include "fillit.h"
 #include <fcntl.h>
 
-static void	ft_arraydel(char **str_array, int size)
+void	ft_arraydel(char **str_array, int size)
 {
 	int	i;
 	
@@ -14,7 +14,7 @@ static void	ft_arraydel(char **str_array, int size)
 	free(str_array);
 }
 
-static int	check_line(char *line)
+int	check_line(char *line)
 {
 	while (*line)
 	{
@@ -25,7 +25,7 @@ static int	check_line(char *line)
 	return (1);
 }
 
-static char	**check_input_format(int fd)
+char	**check_input_format(int fd)
 {
 	int		i;
 	int		gnl;
@@ -52,7 +52,7 @@ static char	**check_input_format(int fd)
 	return (lines);
 }
 
-static int	check_empty_line(int fd)
+int	check_empty_line(int fd)
 {
 	char	*line;
 	int		res;
@@ -72,7 +72,7 @@ static int	check_empty_line(int fd)
 	return (res); //returns 0 if all read, 1 if not end of file, -1 if error
 }
 
-static t_piece	parse_tetrimino(char **input_piece)
+t_piece	parse_tetrimino(char **input_piece)
 {
 	int		x;
 	int		y;
@@ -109,10 +109,10 @@ static t_piece	parse_tetrimino(char **input_piece)
 		ft_arraydel(input_piece);
 		return (NULL);
 	}
-	
+	// todo : calculate width and height of piece, save to struct and we are ready to solve
 }
 
-static int	get_tetriminos(int fd, t_piece *tetriminos)
+int	get_tetriminos(int fd, t_piece *tetriminos)
 {
 	int		i;
 	int		count;
@@ -122,11 +122,11 @@ static int	get_tetriminos(int fd, t_piece *tetriminos)
 	count = 0;
 	while (check_empty_line(fd) > 0)
 	{
-		input_piece = check_input_format(fd, &check_ret_val);
+		input_piece = check_input_format(fd);
 		if (!input_piece)
 			return (0);
 		if (parse_tetrimino())
-		
+		//not finished. we will count how many pieces we got as a return or 0 if error and return error in main
 	}
 	return (count);
 }
