@@ -43,12 +43,12 @@ char	**check_input_format(int fd)
 		gnl = ft_get_next_line(fd, &lines[i]); //reading line by line and saving into tetri-input to 4x4 array, return lines to get tetriminos function
 		if (gnl < 0)  //free allocated array of pointers if gnl returned error 
 		{
-			ft_arraydel(&lines, 4);
+			ft_arraydel(lines, 4);
 			return (NULL);
 		}
-		if (ft_strlen(lines[i]) != 4 && !check_line(line[i])) // free if line not 4p long or has something instead of . or #
+		if (ft_strlen(lines[i]) != 4 && !check_line(lines[i])) // free if line not 4p long or has something instead of . or #
 		{
-			ft_arraydel(&lines, 4);
+			ft_arraydel(lines, 4);
 			return (NULL);
 		}
 	}
@@ -63,6 +63,7 @@ int	check_empty_line(int fd)
 	int		line_length;
 	
 	res = ft_get_next_line(fd, &line);
+	//printf("3 Check\n%d\n", res);
 	if (res == -1) // means no '\n' after 4x4 block or error from gnl. so error
 	{
 		free(line);
@@ -167,7 +168,7 @@ int count_adjacence(char **input_piece, int x, int y)
 }
 // not finished. with help of this function we will check if tetri is valid
 // alighn to topleft corner and save result to array of structs. one parsed tetri == one struct 
-t_piece	parse_tetrimino(char **input_piece, int count) 
+int	parse_tetrimino(char **input_piece, int count, t_piece *tetriminos) 
 {
 	int		x;
 	int		y;
@@ -184,7 +185,7 @@ t_piece	parse_tetrimino(char **input_piece, int count)
 		{
 			if (input_piece[y][x] == '#') // if # check top left right down coordinates, if # count++
 			{
-				count_touches = count_touches + count_adjacence(input_piece, int x, int y);
+				count_touches = count_touches + count_adjacence(input_piece, x, y);
 				hash_count++;
 			}
 			x++;
@@ -193,10 +194,11 @@ t_piece	parse_tetrimino(char **input_piece, int count)
 	}
 	if (hash_count != 4 && count_touches < 6)
 	{
-		ft_arraydel(input_piece);
-		return (NULL);
+		ft_arraydel(input_piece, 4);
+		return (0);
 	}
-	return (get_tetri_struct(input_piece, count));
+	*tetriminos = get_tetri_struct(input_piece, count);
+	return (1);
 }
 
 int	get_tetriminos(int fd, t_piece *tetriminos) //we will count how many pieces we got. we will return 0 if error and return "error\n" in main then
@@ -210,11 +212,12 @@ int	get_tetriminos(int fd, t_piece *tetriminos) //we will count how many pieces 
 		if (count > 26)
 			return (0);
 		input_piece = check_input_format(fd);
+		printf("4 Check\n");
 		if (!input_piece)
 			return (0);
-		if (!parse_tetrimino(input_piece)) //not finished. with help of this function we will check if tetri is valid, alighn to topleft corner and save result to array of structs. one parsed tetri == one struct
+		if (!parse_tetrimino(input_piece, count, &tetriminos[count])) //not finished. with help of this function we will check if tetri is valid, alighn to topleft corner and save result to array of structs. one parsed tetri == one struct
 			return (0);
-		tetriminos[count] = parse_tetrimino(input_piece, count);
+		parse_tetrimino(input_piece, count, &tetriminos[count]);
 		count++;
 	}
 	return (count);
@@ -241,7 +244,7 @@ void	free_content(t_piece *tetriminos)
 	while (i < 26)
 	{
 		if (tetriminos[i].content != NULL)
-			ft_arraydel(tetriminos[i].content);
+			ft_arraydel(tetriminos[i].content, 4);
 		i++;
 	}
 	return ;
@@ -277,9 +280,11 @@ int	main(int argc, char **argv)
 		ft_putstr("error\n");
 		return (1);
 	}
+	printf("1 Check\n");
 	set_content_to_null(tetriminos);
 	tet_count = get_tetriminos(fd, tetriminos);
-	if (tet_count <= 0)
+	printf("2 Check\n%d\n", tet_count);
+	if (tet_count < 0)
 	{
 		free_content(tetriminos);
 		ft_putstr("error\n");
@@ -288,7 +293,7 @@ int	main(int argc, char **argv)
 	while (i < tet_count) //temp check
 	{
 		print_arr(tetriminos[i].content);
-		printf("xlen: %d\nylen: %d\nxmin: %d\nymin: %d\nlitera: %c\n", tetriminos[i].xlen, tetriminos[i].ylen, \\
+		printf("xlen: %d\nylen: %d\nxmin: %d\nymin: %d\nlitera: %c\n", tetriminos[i].xlen, tetriminos[i].ylen,
 				tetriminos[i].xmin, tetriminos[i].ymin, tetriminos[i].litera);
 	}
 	return (0);
