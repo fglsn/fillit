@@ -49,13 +49,13 @@ int	check_empty_line(int fd)
 	int		line_length;
 	
 	res = ft_get_next_line(fd, &line);
-	printf("check_empty_line\nReturn from gnl: %d\n", res);
+	//printf("check_empty_line\nReturn from gnl: %d\n", res);
 	if (res != 1) // means no '\n' after 4x4 block or error from gnl. so error
 	{
 		//free(line);
 		return (0);
 	}
-	printf("Strlen_line %zu\n", ft_strlen(line));
+	//printf("Strlen_line %zu\n", ft_strlen(line));
 	if (ft_strlen(line)) //error if last line not empty
 	{
 		res = 0;
@@ -76,14 +76,13 @@ int	check_input_format(int fd, string_array *input_piece) //string_array *input_
 	if (!lines)
 		return (-1);
 	i = 0;
-	printf("Check\n");
 	while (i < 4)
 	{
-		printf("Check before gnl\n");
+		//printf("Check before gnl\n");
 		gnl = ft_get_next_line(fd, &lines[i]); //reading line by line and saving into tetri-input to 4x4 array, return lines to get tetriminos function
 		if (gnl < 0 || (i != 0 && !gnl))  //free allocated array of pointers if gnl returned error 
 		{
-			printf("Check1\n");
+			//printf("Check1\n");
 			ft_arraydel(lines, 4);
 			return (-1);
 		}
@@ -94,11 +93,10 @@ int	check_input_format(int fd, string_array *input_piece) //string_array *input_
 //		printf("%zu\n", ft_strlen(lines[i]));
 		if (ft_strlen(lines[i]) != 4 || !check_line(lines[i])) // free if line not 4p long or has something instead of . or #
 		{
-			printf("Check2\n");
+			//printf("Check2\n");
 			ft_arraydel(lines, 4);
 			return (-1);
 		}
-		printf("Check3\n");
 		i++;
 	}
 
