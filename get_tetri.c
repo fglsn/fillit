@@ -1,9 +1,9 @@
 #include "fillit.h"
 
-char **parse_input_piece(char *buffer)
+char	**parse_input_piece(char *buffer)
 {
-	int	i;
-	char **input_piece;
+	int		i;
+	char	**input_piece;
 
 	i = 0;
 	input_piece = malloc(sizeof(char *) * 4);
@@ -30,9 +30,10 @@ char **parse_input_piece(char *buffer)
 
 t_piece	get_tetri_struct(char **input_piece, int count)
 {
-	char litera[26] = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
-	t_piece tetrimino;
+	char	litera[26];
+	t_piece	tetrimino;
 
+	litera = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
 	tetrimino.content = input_piece;
 	get_tetri_height(input_piece, &tetrimino.ymin, &tetrimino.ylen);
 	get_tetri_width(input_piece, &tetrimino.xmin, &tetrimino.xlen);
@@ -40,7 +41,7 @@ t_piece	get_tetri_struct(char **input_piece, int count)
 	return (tetrimino);
 }
 
-int	get_tetrimino(int fd, t_piece *tetrimino, int count) //string_array *input_piece == char ***input_piece
+int	get_tetrimino(int fd, t_piece *tetrimino, int count)
 {
 	int		read_ret;
 	char	buffer[20];
@@ -73,16 +74,16 @@ int	check_empty_line(int fd)
 	return (1);
 }
 
-int	get_tetriminos(int fd, t_piece *tetriminos) //we will count how many pieces we got. we will return 0 if error and return "error\n" in main then
+int	get_tetriminos(int fd, t_piece *tetriminos)
 {
 	int		count;
-	char	**input_piece; //array of lines with tetrimino
+	char	**input_piece;
 	int		valid_tet;
 	int		continue_read;
 
 	count = 0;
 	continue_read = 1;
-	while (continue_read) //we will read and save each piece at a time, unless there's nothing to read anymore or error (for example no \n after 4x4 block in input)
+	while (continue_read)
 	{
 		if (count > 26)
 			return (-1);

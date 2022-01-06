@@ -1,7 +1,7 @@
 #include "libft/libft.h"
 #include "fillit.h"
 #include <fcntl.h>
-#include <stdio.h> //remember forbidden lib!!
+#include <stdio.h>
 
 void	print_arr(char **content)
 {
@@ -17,10 +17,10 @@ void	print_arr(char **content)
 	printf("\n");
 }
 
-void	ft_arraydel(char **str_array, int size) // free all strings in 2d array and array itself
+void	ft_arraydel(char **str_array, int size)
 {
 	int	i;
-	
+
 	i = 0;
 	while (i < size)
 	{
@@ -61,9 +61,8 @@ int	main(int argc, char **argv)
 {
 	int			fd;
 	int			tet_count;
-	t_piece	tetriminos[26];
+	t_piece		tetriminos[26];
 	int	i = 0; //temp index
-
 	if (argc != 2)
 	{
 		ft_putstr("usage: ./fillit sourse_file\n");
@@ -78,13 +77,13 @@ int	main(int argc, char **argv)
 	set_content_to_null(tetriminos);
 	tet_count = get_tetriminos(fd, tetriminos);
 	printf("Total tetrimio count: %d\n", tet_count);
-	if (tet_count <= 0) // temp change from : <=
+	if (tet_count <= 0)
 	{
 		free_content(tetriminos);
 		ft_putstr("error\n");
 		return (1);
 	}
-	while (i < tet_count) //temp check
+	while (i < tet_count)
 	{
 		print_arr(tetriminos[i].content);
 		printf("xlen: %d\nylen: %d\nxmin: %d\nymin: %d\nlitera: %c\n", tetriminos[i].xlen, tetriminos[i].ylen,
