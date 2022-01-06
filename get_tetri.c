@@ -52,7 +52,10 @@ int	get_tetrimino(int fd, t_piece *tetrimino, int count)
 	if (!input_piece)
 		return (-1);
 	if (check_tetrimino(input_piece) == -1)
+	{
+		ft_arraydel(input_piece, 4);
 		return (-1);
+	}
 	*tetrimino = get_tetri_struct(input_piece, count);
 	return (1);
 }
