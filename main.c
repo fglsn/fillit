@@ -49,7 +49,7 @@ int	check_empty_line(int fd)
 	int		line_length;
 	
 	res = ft_get_next_line(fd, &line);
-	//printf("check_empty_line\nReturn from gnl: %d\n", res);
+	printf("check_empty_line\nReturn from gnl: %d\n", res);
 	if (!res)
 		return (0);
 	if (res < 0) // means no '\n' after 4x4 block or error from gnl. so error
@@ -60,7 +60,7 @@ int	check_empty_line(int fd)
 	//printf("Strlen_line %zu\n", ft_strlen(line));
 	if (ft_strlen(line)) //error if last line not empty
 	{
-		res = 0;
+		res = -1;
 	}
 	free(line);
 	return (res); //returns 0 if all read, 1 if not end of file, -1 if error
@@ -97,7 +97,6 @@ int	check_input_format(int fd, string_array *input_piece) //string_array *input_
 		}
 		i++;
 	}
-
 	*input_piece = lines;
 	return (1);
 }
