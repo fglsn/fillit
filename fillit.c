@@ -90,6 +90,7 @@ int	main(int argc, char **argv)
 				tetriminos[i].xmin, tetriminos[i].ymin, tetriminos[i].litera);
 		i++;
 	}
+	test_draw(&tetriminos[0], tet_count);
 	free_content(tetriminos);
 	return (0);
 }

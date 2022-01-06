@@ -6,7 +6,7 @@
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/01 16:05:58 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/06 12:10:36 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/06 19:29:57 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ typedef struct s_list
 }					t_list;
 
 int		ft_get_next_line(const int fd, char **line);
+int		ft_sqrt(int n);
 
 void	*ft_memset(void *b, int c, size_t len);
 void	ft_bzero(void *s, size_t n);

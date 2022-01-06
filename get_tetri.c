@@ -30,14 +30,12 @@ char	**parse_input_piece(char *buffer)
 
 t_piece	get_tetri_struct(char **input_piece, int count)
 {
-	char	litera[26];
 	t_piece	tetrimino;
 
-	litera = "ABCDEFGHIGKLMNOPQRSTUVWXYZ";
 	tetrimino.content = input_piece;
 	get_tetri_height(input_piece, &tetrimino.ymin, &tetrimino.ylen);
 	get_tetri_width(input_piece, &tetrimino.xmin, &tetrimino.xlen);
-	tetrimino.litera = litera[count];
+	tetrimino.litera = "ABCDEFGHIGKLMNOPQRSTUVWXYZ"[count];
 	return (tetrimino);
 }
 
@@ -53,7 +51,7 @@ int	get_tetrimino(int fd, t_piece *tetrimino, int count)
 	input_piece = parse_input_piece(buffer);
 	if (!input_piece)
 		return (-1);
-	if (check_tetrimino(input_piece, count) == -1)
+	if (check_tetrimino(input_piece) == -1)
 		return (-1);
 	*tetrimino = get_tetri_struct(input_piece, count);
 	return (1);

@@ -65,6 +65,7 @@ FUNCTIONS = ft_memset.c \
 					ft_islower.c \
 					ft_isupper.c \
 					ft_get_next_line.c \
+					ft_sqrt.c \
 
 OBJECTS = $(FUNCTIONS:.c=.o)
 

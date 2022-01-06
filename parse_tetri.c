@@ -71,7 +71,7 @@ int	count_adjacence(char **input_piece, int x, int y)
 	return (count);
 }
 
-int	check_tetrimino(char **input_piece, int count)
+int	check_tetrimino(char **input_piece)
 {
 	int		x;
 	int		y;
