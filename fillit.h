@@ -6,7 +6,7 @@
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:30:08 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/05 17:16:31 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/06 14:38:21 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,18 @@ typedef struct	s_piece
 	int		ymin;
 	char	litera;
 }				t_piece;
+
+int	get_tetriminos(int fd, t_piece *tetriminos);
+int	check_empty_line(int fd);
+int	get_tetrimino(int fd, t_piece *tetrimino, int count);
+t_piece	get_tetri_struct(char **input_piece, int count);
+char **parse_input_piece(char *buffer);
+
+int	check_tetrimino(char **input_piece, int count);
+int count_adjacence(char **input_piece, int x, int y);
+void	get_tetri_width(char **input_piece, int *xmin, int *xlen);
+void	get_tetri_height(char **input_piece, int *ymin, int *ylen);
+
+void	ft_arraydel(char **str_array, int size);
 
 #endif
