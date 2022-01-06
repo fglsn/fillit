@@ -50,10 +50,12 @@ int	check_empty_line(int fd)
 	
 	res = ft_get_next_line(fd, &line);
 	//printf("check_empty_line\nReturn from gnl: %d\n", res);
-	if (res != 1) // means no '\n' after 4x4 block or error from gnl. so error
+	if (!res)
+		return (0);
+	if (res < 0) // means no '\n' after 4x4 block or error from gnl. so error
 	{
 		//free(line);
-		return (0);
+		return (-1);
 	}
 	//printf("Strlen_line %zu\n", ft_strlen(line));
 	if (ft_strlen(line)) //error if last line not empty
@@ -80,15 +82,11 @@ int	check_input_format(int fd, string_array *input_piece) //string_array *input_
 	{
 		//printf("Check before gnl\n");
 		gnl = ft_get_next_line(fd, &lines[i]); //reading line by line and saving into tetri-input to 4x4 array, return lines to get tetriminos function
-		if (gnl < 0 || (i != 0 && !gnl))  //free allocated array of pointers if gnl returned error 
+		if (gnl <= 0)  //free allocated array of pointers if gnl returned error 
 		{
 			//printf("Check1\n");
 			ft_arraydel(lines, 4);
 			return (-1);
-		}
-		if (i == 0 && !gnl)
-		{
-			return (0);
 		}
 //		printf("%zu\n", ft_strlen(lines[i]));
 		if (ft_strlen(lines[i]) != 4 || !check_line(lines[i])) // free if line not 4p long or has something instead of . or #
@@ -100,13 +98,8 @@ int	check_input_format(int fd, string_array *input_piece) //string_array *input_
 		i++;
 	}
 
-	if (!check_empty_line(fd))
-	{
-		ft_arraydel(lines, 4);
-		return (-1);
-	}
 	*input_piece = lines;
-	return (1); 
+	return (1);
 }
 
 void	get_tetri_height(char **input_piece, int *ymin, int *ylen)
@@ -240,17 +233,15 @@ int	get_tetriminos(int fd, t_piece *tetriminos) //we will count how many pieces 
 	int		count;
 	char	**input_piece; //array of lines with tetrimino
 	int		input_validator;
+	int     should_read;
 
 	count = 0;
-	while (1) //we will read and save each piece at a time, unless there's nothing to read anymore or error (for example no \n after 4x4 block in input)
+	should_read = 1;
+	while (should_read) //we will read and save each piece at a time, unless there's nothing to read anymore or error (for example no \n after 4x4 block in input)
 	{
-		if (count > 26)
+		if (count >= 26)
 			return (0);
 		input_validator = check_input_format(fd, &input_piece);
-		if (!input_validator)
-		{
-			return (count);
-		}
 		if (input_validator == -1)
 		{
 			return (0);
@@ -258,6 +249,9 @@ int	get_tetriminos(int fd, t_piece *tetriminos) //we will count how many pieces 
 		if (!parse_tetrimino(input_piece, count, &tetriminos[count])) //not finished. with help of this function we will check if tetri is valid, alighn to topleft corner and save result to array of structs. one parsed tetri == one struct
 			return (0);
 		count++;
+		should_read = check_empty_line(fd);
+		if (should_read == -1) // empty line error
+			return (0);
 	}
 	return (count);
 }
@@ -313,7 +307,7 @@ int	main(int argc, char **argv)
 	if (tet_count <= 0) // temp change from : <=
 	{
 		//free_content(tetriminos);
-		ft_putstr("error\n");
+		ft_putstr("error here???\n");
 		return (1);
 	}
 	while (i < tet_count) //temp check
