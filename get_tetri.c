@@ -78,7 +78,6 @@ int	check_empty_line(int fd)
 int	get_tetriminos(int fd, t_piece *tetriminos)
 {
 	int		count;
-	char	**input_piece;
 	int		valid_tet;
 	int		continue_read;
 

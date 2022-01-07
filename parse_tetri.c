@@ -97,7 +97,7 @@ int	check_tetrimino(char **input_piece)
 		}
 		y++;
 	}
-	if (hash_count != 4 && (count != 6 || count != 8))
+	if (hash_count != 4 && (count != 6 && count != 8))
 		return (-1);
 	return (1);
 }

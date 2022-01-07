@@ -6,7 +6,7 @@
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:30:08 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/06 22:09:47 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/07 14:45:48 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_piece
 typedef struct s_board
 {
 	char	**board;
-	size_t	size;
+	int		size;
 }				t_board;
 
 void	test_draw(t_piece *tetri, int tet_count);

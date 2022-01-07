@@ -4,7 +4,7 @@
 size_t	get_min_board_size(int tet_count)
 {
 	int		num_hashes;
-	size_t	size;
+	int		size;
 
 	size = 1;
 	num_hashes = tet_count * 4;
@@ -18,7 +18,7 @@ size_t	get_min_board_size(int tet_count)
 int	initialize_board(size_t board_size, t_board *board)
 {
 	char	**board_content;
-	int		i;
+	size_t		i;
 
 	i = 0;
 	board_content = malloc(sizeof(char *) * board_size);
@@ -26,7 +26,7 @@ int	initialize_board(size_t board_size, t_board *board)
 		return (0);
 	while (i < board_size)
 	{
-		board_content[i] = ft_strnew(board_size);
+		board_content[i] = ft_strnew((size_t)board_size);
 		if (!board_content[i])
 		{
 			ft_arraydel(board_content, i);
