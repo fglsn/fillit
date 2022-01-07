@@ -23,4 +23,3 @@ void	remove_tetri(t_board *board, int x, int y, t_piece *tetri)
 	}
 	return (1);
 }
-

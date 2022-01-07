@@ -12,7 +12,7 @@ size_t	get_min_board_size(int tet_count)
 	{
 		size++;
 	}
-	return (10);
+	return (size);
 }
 
 int	initialize_board(size_t board_size, t_board *board)

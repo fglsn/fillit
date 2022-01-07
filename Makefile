@@ -3,7 +3,7 @@ FLAGS = -Wall -Wextra -Werror
 
 all: clean
 	make main
-	
+
 main:
 	$(CC) $(FLAGS) *.c *.h libft/libft.a
 
