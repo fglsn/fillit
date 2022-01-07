@@ -124,4 +124,5 @@ void	test_draw(t_piece *tetri, int tet_count)
 		printf("Failed to insert\n");
 	}
 	draw_board(&board);
+	ft_arraydel(board.board, board_size);
 }
