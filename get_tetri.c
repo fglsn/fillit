@@ -35,7 +35,7 @@ t_piece	get_tetri_struct(char **input_piece, int count)
 	tetrimino.content = input_piece;
 	get_tetri_height(input_piece, &tetrimino.ymin, &tetrimino.ylen);
 	get_tetri_width(input_piece, &tetrimino.xmin, &tetrimino.xlen);
-	tetrimino.litera = "ABCDEFGHIGKLMNOPQRSTUVWXYZ"[count];
+	tetrimino.litera = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[count];
 	return (tetrimino);
 }
 
