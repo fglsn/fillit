@@ -50,18 +50,15 @@ int	validate_place(t_board *board, int x, int y, t_piece *tetri)
 	iy = 0;
 	ylen = tetri->ylen;
 	xlen = tetri->xlen;
-	if (y + ylen >= board->size || x + xlen >= board->size)
+	if (y + ylen > board->size || x + xlen > board->size)
 		return (0);
 	while (iy < ylen)
 	{
 		ix = 0;
 		while (ix < xlen)
 		{
-			printf("%d %d\n", ix, iy);
 			if (board->board[y + iy][x + ix] != '.' && tetri->content[tetri->ymin + iy][tetri->xmin + ix] == '#')
-			{
 				return (0);
-			}
 			ix++;
 		}
 		iy++;
@@ -101,6 +98,7 @@ void	draw_board(t_board *board)
 	int	i;
 
 	i = 0;
+	printf("%d\n", board->size);
 	while (i < board->size)
 	{
 		ft_putstr(board->board[i]);
@@ -109,20 +107,20 @@ void	draw_board(t_board *board)
 	}
 }
 
-void	test_draw(t_piece *tetri, int tet_count)
-{
-	size_t	board_size;
-	t_board	board;
+// void	test_draw(t_piece *tetri, int tet_count)
+// {
+// 	size_t	board_size;
+// 	t_board	board;
 
-	board_size = get_min_board_size(tet_count);
-	if (!initialize_board(board_size, &board))
-	{
-		printf("Failed to initialize\n");
-	}
-	if (!insert_tetri(&board, 2, 2, tetri))
-	{
-		printf("Failed to insert\n");
-	}
-	draw_board(&board);
-	ft_arraydel(board.board, board_size);
-}
+// 	board_size = get_min_board_size(tet_count);
+// 	if (!initialize_board(board_size, &board))
+// 	{
+// 		printf("Failed to initialize\n");
+// 	}
+// 	if (!insert_tetri(&board, 2, 2, tetri))
+// 	{
+// 		printf("Failed to insert\n");
+// 	}
+// 	draw_board(&board);
+// 	ft_arraydel(board.board, board_size);
+// }
