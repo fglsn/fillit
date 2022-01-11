@@ -1,22 +1,24 @@
 FLAGS = -Wall -Wextra -Werror
 NAME = fillit
-FILES = fillit.c get_tetri.c parse_tetri.c prepare_board.c solve.c helpers.c
+SRC = main.c get_tetriminos.c check_tetrimino.c get_struct.c board.c solver.c 
+OBJECTS = $(SRC:.c=.o)
 HEADER = fillit.h
 LIBFT = libft/
 
-$(NAME):
-	make -C $(LIBFT)
-	clang $(FLAGS) -o $(NAME) $(FILES) -I $(HEADER) -L. libft/libft.a
-
 all: $(NAME)
 
+$(NAME):
+	make -C $(LIBFT)
+	clang $(FLAGS) -o $(NAME) $(SRC) -I $(HEADER) -L. libft/libft.a
+
 clean:
-	rm -f *.o *.gch *.out libft/*.o libft/*.a
+	/bin/rm -f $(OBJECTS)
+	make -C $(LIBFT) clean
 
 fclean: clean
-	rm -rf fillit
+	/bin/rm -f $(NAME)
+	make -C $(LIBFT) fclean
 
 re: fclean all
 
-
-#leaks -atExit -- ./fillit max.txt
+#leaks -atExit -- ./fillit

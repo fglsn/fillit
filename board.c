@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prepare_board.c                                    :+:      :+:    :+:   */
+/*   board.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 11:21:05 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/11 11:22:08 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:01:05 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,60 +48,6 @@ int	initialize_board(size_t board_size, t_board *board)
 	}
 	board->board = board_content;
 	board->size = board_size;
-	return (1);
-}
-
-int	validate_place(t_board *board, int x, int y, t_piece *tetri)
-{
-	int	iy;
-	int	ix;
-	int	ylen;
-	int	xlen;
-
-	iy = 0;
-	ylen = tetri->ylen;
-	xlen = tetri->xlen;
-	if (y + ylen > board->size || x + xlen > board->size)
-		return (0);
-	while (iy < ylen)
-	{
-		ix = 0;
-		while (ix < xlen)
-		{
-			if (board->board[y + iy][x + ix] != '.' && \
-				tetri->content[tetri->ymin + iy][tetri->xmin + ix] == '#')
-				return (0);
-			ix++;
-		}
-		iy++;
-	}
-	return (1);
-}
-
-int	insert_tetri(t_board *board, int x, int y, t_piece *tetri)
-{
-	int	iy;
-	int	ix;
-	int	ylen;
-	int	xlen;
-
-	iy = 0;
-	ylen = tetri->ylen;
-	xlen = tetri->xlen;
-	if (!validate_place(board, x, y, tetri))
-		return (0);
-	while (iy < ylen)
-	{
-		ix = 0;
-		while (ix < xlen)
-		{
-			if (board->board[y + iy][x + ix] == '.' \
-				&& tetri->content[tetri->ymin + iy][tetri->xmin + ix] == '#')
-				board->board[y + iy][x + ix] = tetri->litera;
-			ix++;
-		}
-		iy++;
-	}
 	return (1);
 }
 

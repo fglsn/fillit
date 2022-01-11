@@ -6,7 +6,7 @@
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:30:08 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/10 12:56:20 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/11 13:20:13 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,34 @@ typedef struct s_board
 	int		size;
 }				t_board;
 
-void	test_draw(t_piece *tetri, int tet_count);
+int		open_file(char *filename);
+void	set_content_to_null(t_piece *tetriminos);
+void	free_content(t_piece *tetriminos);
+int		put_error(t_piece *tetriminos);
 
 int		get_tetriminos(int fd, t_piece *tetriminos);
-int		check_empty_line(int fd);
 int		get_tetrimino(int fd, t_piece *tetrimino, int count);
-t_piece	get_tetri_struct(char **input_piece, int count);
 char	**parse_input_piece(char *buffer);
+int		should_read_further(int fd);
+void	ft_arraydel(char **str_array, int size);
 
 int		check_tetrimino(char **input_piece);
 int		count_adjacence(char **input_piece, int x, int y);
+int		check_format(char **input_piece, int hash_num, int touches);
+
+t_piece	get_struct(char **input_piece, int count);
 void	get_tetri_width(char **input_piece, int *xmin, int *xlen);
 void	get_tetri_height(char **input_piece, int *ymin, int *ylen);
 void	update_min_max(char element, int n, int *n_min, int *n_max);
 
-void	draw_board(t_board *board);
+int		solver(t_piece *tetriminos, int tet_count);
+int		try_to_solve(t_board *board, t_piece *tetriminos, int tet_count, int i);
 int		insert_tetri(t_board *board, int x, int y, t_piece *tetri);
-int		initialize_board(size_t board_size, t_board *board);
-size_t	get_min_board_size(int tet_count);
+int		validate_place(t_board *board, int x, int y, t_piece *tetri);
+void	remove_tetri(t_board *board, int x, int y, t_piece *tetri);
 
-int		solve(t_piece *tetriminos, int tet_count);
-void	ft_arraydel(char **str_array, int size);
+size_t	get_min_board_size(int tet_count);
+int		initialize_board(size_t board_size, t_board *board);
+void	draw_board(t_board *board);
 
 #endif

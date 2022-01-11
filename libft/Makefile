@@ -1,5 +1,5 @@
 CC = gcc
-FLAGS = -Wall -Wextra -Werror -I includes/
+FLAGS = -Wall -Wextra -Werror -I libft.h
 NAME = libft.a
 
 FUNCTIONS = ft_memset.c \
@@ -69,15 +69,15 @@ FUNCTIONS = ft_memset.c \
 
 OBJECTS = $(FUNCTIONS:.c=.o)
 
+all: $(NAME)
+
 $(NAME):
 	$(CC) $(FLAGS) -c $(FUNCTIONS)
 	ar rc $(NAME) $(OBJECTS)
 	ranlib $(NAME)
 
-all: $(NAME)
-
 clean:
-	rm -f $(OBJECTS) *gch
+	rm -f $(OBJECTS)
 
 fclean: clean
 	rm -rf $(NAME)

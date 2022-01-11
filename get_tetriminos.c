@@ -1,16 +1,60 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_tetri.c                                        :+:      :+:    :+:   */
+/*   get_tetriminos.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 12:55:43 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/10 12:55:53 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/11 13:17:47 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
+
+int	get_tetriminos(int fd, t_piece *tetriminos)
+{
+	int		count;
+	int		valid_tet;
+	int		continue_read;
+
+	count = 0;
+	continue_read = 1;
+	while (continue_read)
+	{
+		if (count > 26)
+			return (-1);
+		valid_tet = get_tetrimino(fd, &tetriminos[count], count);
+		if (valid_tet == -1)
+			return (-1);
+		continue_read = should_read_further(fd);
+		if (continue_read < 0)
+			return (-1);
+		count++;
+	}
+	return (count);
+}
+
+int	get_tetrimino(int fd, t_piece *tetrimino, int count)
+{
+	int		read_ret;
+	char	buffer[20];
+	char	**input_piece;
+
+	read_ret = read(fd, buffer, 20);
+	if (read_ret != 20)
+		return (-1);
+	input_piece = parse_input_piece(buffer);
+	if (!input_piece)
+		return (-1);
+	if (check_tetrimino(input_piece) == -1)
+	{
+		ft_arraydel(input_piece, 4);
+		return (-1);
+	}
+	*tetrimino = get_struct(input_piece, count);
+	return (1);
+}
 
 char	**parse_input_piece(char *buffer)
 {
@@ -40,39 +84,7 @@ char	**parse_input_piece(char *buffer)
 	return (input_piece);
 }
 
-t_piece	get_tetri_struct(char **input_piece, int count)
-{
-	t_piece	tetrimino;
-
-	tetrimino.content = input_piece;
-	get_tetri_height(input_piece, &tetrimino.ymin, &tetrimino.ylen);
-	get_tetri_width(input_piece, &tetrimino.xmin, &tetrimino.xlen);
-	tetrimino.litera = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[count];
-	return (tetrimino);
-}
-
-int	get_tetrimino(int fd, t_piece *tetrimino, int count)
-{
-	int		read_ret;
-	char	buffer[20];
-	char	**input_piece;
-
-	read_ret = read(fd, buffer, 20);
-	if (read_ret != 20)
-		return (-1);
-	input_piece = parse_input_piece(buffer);
-	if (!input_piece)
-		return (-1);
-	if (check_tetrimino(input_piece) == -1)
-	{
-		ft_arraydel(input_piece, 4);
-		return (-1);
-	}
-	*tetrimino = get_tetri_struct(input_piece, count);
-	return (1);
-}
-
-int	check_empty_line(int fd)
+int	should_read_further(int fd)
 {
 	int		read_ret;
 	char	buffer[1];
@@ -87,25 +99,15 @@ int	check_empty_line(int fd)
 	return (1);
 }
 
-int	get_tetriminos(int fd, t_piece *tetriminos)
+void	ft_arraydel(char **str_array, int size)
 {
-	int		count;
-	int		valid_tet;
-	int		continue_read;
+	int	i;
 
-	count = 0;
-	continue_read = 1;
-	while (continue_read)
+	i = 0;
+	while (i < size)
 	{
-		if (count > 26)
-			return (-1);
-		valid_tet = get_tetrimino(fd, &tetriminos[count], count);
-		if (valid_tet == -1)
-			return (-1);
-		continue_read = check_empty_line(fd);
-		if (continue_read < 0)
-			return (-1);
-		count++;
+		ft_strdel(&str_array[i]);
+		i++;
 	}
-	return (count);
+	free(str_array);
 }

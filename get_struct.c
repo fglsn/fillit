@@ -1,39 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   helpers.c                                          :+:      :+:    :+:   */
+/*   get_struct.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 12:55:25 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/11 11:21:47 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/11 13:15:16 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fillit.h"
 
-void	ft_arraydel(char **str_array, int size)
+t_piece	get_struct(char **input_piece, int count)
 {
-	int	i;
+	t_piece	tetrimino;
 
-	i = 0;
-	while (i < size)
-	{
-		ft_strdel(&str_array[i]);
-		i++;
-	}
-	free(str_array);
-}
-
-void	update_min_max(char element, int n, int *n_min, int *n_max)
-{
-	if (element == '#')
-	{
-		if (n < *n_min)
-			*n_min = n;
-		if (n > *n_max)
-			*n_max = n;
-	}
+	tetrimino.content = input_piece;
+	get_tetri_height(input_piece, &tetrimino.ymin, &tetrimino.ylen);
+	get_tetri_width(input_piece, &tetrimino.xmin, &tetrimino.xlen);
+	tetrimino.litera = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[count];
+	return (tetrimino);
 }
 
 void	get_tetri_height(char **input_piece, int *ymin, int *ylen)
@@ -78,4 +65,15 @@ void	get_tetri_width(char **input_piece, int *xmin, int *xlen)
 		y++;
 	}
 	*xlen = x_max - *xmin + 1;
+}
+
+void	update_min_max(char element, int n, int *n_min, int *n_max)
+{
+	if (element == '#')
+	{
+		if (n < *n_min)
+			*n_min = n;
+		if (n > *n_max)
+			*n_max = n;
+	}
 }
