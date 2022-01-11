@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   solve.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/11 11:20:47 by ishakuro          #+#    #+#             */
+/*   Updated: 2022/01/11 11:20:57 by ishakuro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
-#include <stdio.h>
 
 void	remove_tetri(t_board *board, int x, int y, t_piece *tetri)
 {
@@ -24,7 +35,7 @@ void	remove_tetri(t_board *board, int x, int y, t_piece *tetri)
 	}
 }
 
-int		try_to_solve(t_board *board, t_piece *tetriminos, int tet_count, int i)
+int	try_to_solve(t_board *board, t_piece *tetriminos, int tet_count, int i)
 {
 	int	x;
 	int	y;
@@ -37,11 +48,9 @@ int		try_to_solve(t_board *board, t_piece *tetriminos, int tet_count, int i)
 		while (x < board->size)
 		{
 			was_inserted = insert_tetri(board, x, y, &tetriminos[i]);
-			if (was_inserted && i == tet_count - 1) //check for last tetri piece
-			{
+			if (was_inserted && i == tet_count - 1)
 				return (1);
-			}
-			else if (was_inserted) //if not last piece but was inserted 
+			else if (was_inserted)
 			{
 				if (try_to_solve(board, tetriminos, tet_count, i + 1))
 					return (1);
@@ -65,7 +74,6 @@ int	solve(t_piece *tetriminos, int tet_count)
 	{
 		if (!initialize_board(board_size, &board))
 			return (0);
-		printf("Trying board size %d\n", board_size);
 		if (try_to_solve(&board, tetriminos, tet_count, 0))
 		{
 			draw_board(&board);

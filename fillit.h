@@ -6,7 +6,7 @@
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/03 14:30:08 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/09 14:35:02 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/10 12:56:20 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		check_tetrimino(char **input_piece);
 int		count_adjacence(char **input_piece, int x, int y);
 void	get_tetri_width(char **input_piece, int *xmin, int *xlen);
 void	get_tetri_height(char **input_piece, int *ymin, int *ylen);
+void	update_min_max(char element, int n, int *n_min, int *n_max);
 
 void	draw_board(t_board *board);
 int		insert_tetri(t_board *board, int x, int y, t_piece *tetri);

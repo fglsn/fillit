@@ -1,5 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   prepare_board.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/11 11:21:05 by ishakuro          #+#    #+#             */
+/*   Updated: 2022/01/11 11:22:08 by ishakuro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
-#include <stdio.h>
 
 size_t	get_min_board_size(int tet_count)
 {
@@ -18,7 +29,7 @@ size_t	get_min_board_size(int tet_count)
 int	initialize_board(size_t board_size, t_board *board)
 {
 	char	**board_content;
-	size_t		i;
+	size_t	i;
 
 	i = 0;
 	board_content = malloc(sizeof(char *) * board_size);
@@ -57,7 +68,8 @@ int	validate_place(t_board *board, int x, int y, t_piece *tetri)
 		ix = 0;
 		while (ix < xlen)
 		{
-			if (board->board[y + iy][x + ix] != '.' && tetri->content[tetri->ymin + iy][tetri->xmin + ix] == '#')
+			if (board->board[y + iy][x + ix] != '.' && \
+				tetri->content[tetri->ymin + iy][tetri->xmin + ix] == '#')
 				return (0);
 			ix++;
 		}
@@ -98,7 +110,6 @@ void	draw_board(t_board *board)
 	int	i;
 
 	i = 0;
-	printf("%d\n", board->size);
 	while (i < board->size)
 	{
 		ft_putstr(board->board[i]);
@@ -106,21 +117,3 @@ void	draw_board(t_board *board)
 		i++;
 	}
 }
-
-// void	test_draw(t_piece *tetri, int tet_count)
-// {
-// 	size_t	board_size;
-// 	t_board	board;
-
-// 	board_size = get_min_board_size(tet_count);
-// 	if (!initialize_board(board_size, &board))
-// 	{
-// 		printf("Failed to initialize\n");
-// 	}
-// 	if (!insert_tetri(&board, 2, 2, tetri))
-// 	{
-// 		printf("Failed to insert\n");
-// 	}
-// 	draw_board(&board);
-// 	ft_arraydel(board.board, board_size);
-// }

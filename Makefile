@@ -1,19 +1,22 @@
-CC = clang
 FLAGS = -Wall -Wextra -Werror
+NAME = fillit
+FILES = fillit.c get_tetri.c parse_tetri.c prepare_board.c solve.c helpers.c
+HEADER = fillit.h
+LIBFT = libft/
 
-all: clean
-	make main
+$(NAME):
+	make -C $(LIBFT)
+	clang $(FLAGS) -o $(NAME) $(FILES) -I $(HEADER) -L. libft/libft.a
 
-main:
-	$(CC) $(FLAGS) *.c *.h libft/libft.a
+all: $(NAME)
 
 clean:
-	rm -f *.o *.a *.gch *.out libft/*.o
+	rm -f *.o *.gch *.out libft/*.o libft/*.a
 
 fclean: clean
-	rm -rf
+	rm -rf fillit
 
 re: fclean all
 
 
-#leaks -atExit -- ./a.out test.txt
+#leaks -atExit -- ./fillit max.txt

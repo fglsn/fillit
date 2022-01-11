@@ -1,58 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parse_tetri.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/11 11:20:28 by ishakuro          #+#    #+#             */
+/*   Updated: 2022/01/11 11:27:00 by ishakuro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "fillit.h"
 
-void	update_min_max(char element, int n, int *n_min, int *n_max)
+int	check_lines_format(char **input_piece, int hash_num, int touches)
 {
-	if (element == '#')
-	{
-		if (n < *n_min)
-			*n_min = n;
-		if (n > *n_max)
-			*n_max = n;
-	}
-}
+	int		x;
+	int		y;
 
-void	get_tetri_height(char **input_piece, int *ymin, int *ylen)
-{
-	int	y_max;
-	int	y;
-	int	x;
-
-	*ymin = 5;
-	y_max = -1;
 	y = 0;
 	while (y < 4)
 	{
 		x = 0;
 		while (x < 4)
 		{
-			update_min_max(input_piece[y][x], y, ymin, &y_max);
+			if (input_piece[y][x] != '#' && input_piece[y][x] != '.')
+				return (0);
+			if (hash_num != 4 || (touches != 6 && touches != 8))
+				return (0);
 			x++;
 		}
 		y++;
 	}
-	*ylen = y_max - *ymin + 1;
-}
-
-void	get_tetri_width(char **input_piece, int *xmin, int *xlen)
-{
-	int	x_max;
-	int	y;
-	int	x;
-
-	*xmin = 5;
-	x_max = -1;
-	y = 0;
-	while (y < 4)
-	{
-		x = 0;
-		while (x < 4)
-		{
-			update_min_max(input_piece[y][x], x, xmin, &x_max);
-			x++;
-		}
-		y++;
-	}
-	*xlen = x_max - *xmin + 1;
+	return (1);
 }
 
 int	count_adjacence(char **input_piece, int x, int y)
@@ -91,13 +70,11 @@ int	check_tetrimino(char **input_piece)
 				count = count + count_adjacence(input_piece, x, y);
 				hash_count++;
 			}
-			else if (input_piece[y][x] != '.')
-				return (-1);
 			x++;
 		}
 		y++;
 	}
-	if (hash_count != 4 && (count != 6 && count != 8))
+	if (!check_lines_format(input_piece, hash_count, count))
 		return (-1);
 	return (1);
 }
