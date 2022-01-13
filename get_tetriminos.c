@@ -6,7 +6,7 @@
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 12:55:43 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/11 13:17:47 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/13 16:17:40 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	get_tetriminos(int fd, t_piece *tetriminos)
 	continue_read = 1;
 	while (continue_read)
 	{
-		if (count > 26)
+		if (count >= 26)
 			return (-1);
 		valid_tet = get_tetrimino(fd, &tetriminos[count], count);
 		if (valid_tet == -1)

@@ -6,7 +6,7 @@
 /*   By: ishakuro <ishakuro@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/10 12:56:01 by ishakuro          #+#    #+#             */
-/*   Updated: 2022/01/11 15:06:24 by ishakuro         ###   ########.fr       */
+/*   Updated: 2022/01/13 12:46:47 by ishakuro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	main(int argc, char **argv)
 		return (1);
 	set_content_to_null(tetriminos);
 	tet_count = get_tetriminos(fd, tetriminos);
+	close(fd);
 	if (tet_count <= 0)
 		return (put_error(tetriminos));
 	if (!solver(tetriminos, tet_count))
